@@ -178,7 +178,7 @@ function checkMilestoneBadges() {
   const badges = [];
   if (userProfile.totalCorrect >= 3) badges.push("⭐ Quiz Master");
   if (userProfile.streak >= 1) badges.push("🔥 Consistent Learner");
-  if (userProfile.bookmarks.length >= 1) badges.push("📌 Vault Keeper");
+  if (userProfile.bookmarks && userProfile.bookmarks.length >= 1) badges.push("📌 Vault Keeper");
   userProfile.badges = badges;
 }
 

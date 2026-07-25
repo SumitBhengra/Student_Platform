@@ -30,23 +30,36 @@ body {
 
 .app-container {
   width: 100%;
-  max-width: 500px;
+  max-width: 680px; /* Increased from 500px to give it a much wider, more spacious layout */
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 28px;
   box-shadow: var(--shadow-soft);
-  min-height: 500px;
+  min-height: 88vh;  /* Stretches down to cover most of the vertical screen height */
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
 }
 
+/* Optional: Make it fill 100% of mobile screens for a native app experience */
+@media (max-width: 768px) {
+  .app-container {
+    max-width: 100%;
+    min-height: 100vh;
+    border-radius: 0; /* Removes outer rounded corners on phones so it spans edge-to-edge */
+    border: none;     /* Removes the card border on mobile */
+  }
+}
 .screen {
   display: none;
   flex-direction: column;
   flex: 1;
-  padding: 24px;
+  width: 100%;
+  max-width: 600px; /* Keeps content from stretching too wide on tablets/desktops */
+  margin: 0 auto;    /* Centers the screen container perfectly */
+  padding: 16px;     /* Smaller padding on mobile so content gets more space */
+  box-sizing: border-box;
 }
 
 .screen.active {
@@ -54,11 +67,27 @@ body {
 }
 
 .auth-card {
-  margin: auto 0;
+  width: 100%;
+  max-width: 380px; /* Keeps it compact and clean */
+  margin: auto;     /* Centers it perfectly both horizontally and vertically */
   text-align: center;
-  padding: 20px 0;
+  padding: 24px 20px;
+  box-sizing: border-box;
 }
 
+/* Make login/auth cards and general content panels scale cleanly */
+.auth-card, .screen-content {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Ensure selection cards fill their grid columns properly on mobile */
+.selection-card {
+  width: 100%;
+  box-sizing: border-box;
+}
 .brand-logo {
   font-size: 3rem;
   background: var(--accent-gradient);
