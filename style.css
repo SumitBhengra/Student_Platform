@@ -27,28 +27,20 @@ body {
   align-items: center;
   padding: 20px;
 }
-
-.app-container {
-  width: 100%;
-  max-width: 680px; /* Increased from 500px to give it a much wider, more spacious layout */
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 28px;
-  box-shadow: var(--shadow-soft);
-  min-height: 88vh;  /* Stretches down to cover most of the vertical screen height */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-}
-
-/* Optional: Make it fill 100% of mobile screens for a native app experience */
 @media (max-width: 768px) {
+  body {
+    background-color: var(--bg-card); /* Matches the app background so there are no awkward outer borders */
+    padding: 0;
+    margin: 0;
+  }
+
   .app-container {
-    max-width: 100%;
-    min-height: 100vh;
-    border-radius: 0; /* Removes outer rounded corners on phones so it spans edge-to-edge */
-    border: none;     /* Removes the card border on mobile */
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 100vh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 }
 .screen {
