@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConceptDeck — Modern ICSE Study Platform</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- SCREEN 0: LOGIN & ONBOARDING -->
+    <section id="login-screen" class="screen active">
+      <div class="auth-card">
+        <div class="brand-logo">⚡</div>
+        <h1>ConceptDeck</h1>
+        <p>Your bite-sized, active ICSE revision companion.</p>
+        
+        <div class="input-group">
+          <label for="student-name">What's your name?</label>
+          <input type="text" id="student-name" placeholder="e.g. Aarav Sharma" autocomplete="off">
+        </div>
+        <button type="button" id="login-btn" class="primary-btn" onclick="handleLogin()">Get Started →</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 1: DASHBOARD HUB -->
+    <section id="dashboard-screen" class="screen">
+      <header class="dashboard-header">
+        <div>
+          <span class="welcome-tag" id="welcome-tag-text">Welcome back,</span>
+          <h2 id="user-greeting-name">Student</h2>
+        </div>
+        <div class="header-right-actions">
+          <div class="stats-pill streak">🔥 <span id="stat-streak">1</span>d</div>
+          <div class="stats-pill score">⭐ <span id="stat-score">0</span></div>
+          <button id="logout-btn" class="logout-btn" onclick="handleLogout()"><span>⎋</span></button>
+        </div>
+      </header>
+
+      <!-- GLOBAL SEARCH BAR -->
+      <div class="search-container">
+        <input type="text" id="global-search-input" placeholder="🔍 Search chapters, topics, or formulas..." oninput="handleGlobalSearch(this.value)" autocomplete="off">
+        <div id="search-results-dropdown" class="search-dropdown hidden"></div>
+      </div>
+
+      <!-- MODERN DASHBOARD BANNER WITH REFRESH TIP -->
+      <div class="dashboard-banner">
+        <div class="banner-content">
+          <h3>Ready for today's revision? 🚀</h3>
+          <p>Pick up right where you left off in your ICSE curriculum.</p>
+        </div>
+        <div class="banner-tip">
+          <span>💡 Quick Tip:</span> Refreshing the browser page at any time will instantly bring you back to this dashboard.
+        </div>
+      </div>
+
+      <!-- EXAM ARENA ENTRY BANNER -->
+      <div class="exam-arena-banner" onclick="openExamArena()">
+        <div class="banner-icon">🎯</div>
+        <div class="banner-text">
+          <h3>ICSE Exam Arena</h3>
+          <p>Take timed mock tests & customized difficulty challenges.</p>
+        </div>
+        <div class="banner-arrow">→</div>
+      </div>
+
+      <!-- MILESTONE BADGES -->
+      <div id="badge-container" class="badge-container"></div>
+
+      <!-- QUICK REVISION VAULT -->
+      <div class="vault-section">
+        <div class="section-title">
+          <h3>📌 Quick Revision Vault</h3>
+        </div>
+        <div id="vault-list" class="vault-list"></div>
+      </div>
+
+      <div class="section-title">
+        <h3>Quick Navigation</h3>
+      </div>
+      <div id="grade-grid" class="card-grid"></div>
+    </section>
+
+    <!-- SCREEN 2: SUBJECT HUB -->
+    <section id="subject-screen" class="screen">
+      <header class="screen-header">
+        <button class="back-btn" onclick="renderDashboard()" aria-label="Back to Dashboard">←</button>
+        <h2 id="subject-screen-title">Subjects</h2>
+      </header>
+      <div id="subject-grid" class="card-grid"></div>
+    </section>
+
+    <!-- SCREEN 3: CHAPTER ROADMAP -->
+    <section id="chapter-screen" class="screen">
+      <header class="screen-header">
+        <button class="back-btn" id="back-to-subjects">←</button>
+        <h2 id="chapter-screen-title">Chapters</h2>
+      </header>
+      <div id="chapter-list" class="chapter-list"></div>
+    </section>
+
+    <!-- SCREEN 4: STUDY & PRACTICE VIEW -->
+    <section id="practice-screen" class="screen">
+      <header class="screen-header">
+        <button class="back-btn" id="back-to-chapters">←</button>
+        <div class="practice-header-right">
+          <button class="bookmark-action-btn" id="practice-bookmark-btn" onclick="toggleCurrentChapterBookmark()" title="Bookmark Chapter">⭐</button>
+          <span class="subject-tag" id="practice-subject-tag">Physics</span>
+        </div>
+      </header>
+      
+      <div class="practice-card">
+        <h2 id="practice-chapter-title">Chapter Title</h2>
+        <div id="practice-content-area" class="content-box"></div>
+      </div>
+    </section>
+
+    <!-- SCREEN 5A: EXAM ARENA — CLASS SELECTION -->
+    <section id="quiz-class-screen" class="screen">
+      <header class="screen-header">
+        <button class="back-btn" onclick="renderDashboard()" aria-label="Back to Dashboard">←</button>
+        <h2>🎯 Select Class</h2>
+      </header>
+      <p class="panel-desc" style="margin-bottom: 16px;">Choose the class/grade for your exam session:</p>
+      <div id="quiz-class-grid" class="card-grid"></div>
+    </section>
+
+    <!-- SCREEN 5B: EXAM ARENA — SUBJECT SELECTION -->
+    <section id="quiz-subject-screen" class="screen">
+      <header class="screen-header">
+        <button class="back-btn" onclick="openExamArena()" aria-label="Back to Classes">←</button>
+        <h2 id="quiz-subject-screen-title">Select Subject</h2>
+      </header>
+      <p class="panel-desc" id="quiz-subject-desc" style="margin-bottom: 16px;">Choose your target subject:</p>
+      <div id="quiz-subject-grid" class="card-grid"></div>
+    </section>
+
+    <!-- SCREEN 5C: EXAM ARENA — FORMAT SELECTION (DIFFICULTY OR MOCK) -->
+    <section id="quiz-mode-screen" class="screen">
+      <header class="screen-header">
+        <button class="back-btn" onclick="selectQuizClass(arenaSelection.classKey)" aria-label="Back to Subjects">←</button>
+        <h2 id="quiz-mode-screen-title">Select Exam Format</h2>
+      </header>
+      
+      <div class="arena-mode-group">
+        <h4 class="group-title" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase;">🌱 Difficulty Practice</h4>
+        <div class="difficulty-grid">
+          <div class="difficulty-card easy" onclick="startSubjectQuiz('easy')">
+            <span class="diff-icon">🌱</span>
+            <div>
+              <h4>Easy Level</h4>
+              <p>Fundamental concepts & direct formulas</p>
+            </div>
+          </div>
+          <div class="difficulty-card medium" onclick="startSubjectQuiz('medium')">
+            <span class="diff-icon">⚡</span>
+            <div>
+              <h4>Medium Level</h4>
+              <p>Standard application & numericals</p>
+            </div>
+          </div>
+          <div class="difficulty-card hard" onclick="startSubjectQuiz('hard')">
+            <span class="diff-icon">🔥</span>
+            <div>
+              <h4>Board Level (Hard)</h4>
+              <p>Complex multi-step problems</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arena-mode-group" style="margin-top: 20px;">
+        <h4 class="group-title" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase;">📜 Board Mock Test</h4>
+        <div class="board-mock-card" onclick="startSubjectBoardMock()" style="cursor: pointer;">
+          <h3>Full Subject Mock Paper</h3>
+          <p>Simulate real ICSE board exam pressure with a timed question set for this subject.</p>
+          <span class="primary-btn sm" style="display: inline-block; width: auto; padding: 6px 16px; margin-top: 8px;">Start Mock Test →</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 5D: ACTIVE QUIZ SCREEN (LOCKED DURING EXAM) -->
+    <section id="quiz-active-screen" class="screen">
+      <header class="screen-header">
+        <button class="back-btn" style="border-color: #ef4444; color: #f87171;" onclick="quitActiveQuiz()">Quit Quiz</button>
+        <h2 id="quiz-active-title">Exam in Progress</h2>
+      </header>
+      <div id="quiz-active-container" class="practice-card"></div>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>>
