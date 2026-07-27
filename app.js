@@ -301,6 +301,27 @@ function handleGlobalSearch(query) {
   }
   dropdown.classList.remove("hidden");
 }
+function handleActionPill(target, pillElement) {
+  // Update active styling across pills
+  document.querySelectorAll('.action-pill').forEach(pill => pill.classList.remove('active'));
+  if (pillElement) pillElement.classList.add('active');
+
+  if (target === 'home') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if (target === 'classes') {
+    const gradeGrid = document.getElementById('grade-grid');
+    if (gradeGrid) {
+      gradeGrid.scrollIntoView({ behavior: 'smooth' });
+    }
+  } else if (target === 'arena') {
+    openExamArena();
+  } else if (target === 'vault') {
+    const vaultSection = document.querySelector('.vault-section');
+    if (vaultSection) {
+      vaultSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}
 
 function selectSearchedChapter(gradeKey, subjectKey, chapterId) {
   const dropdown = document.getElementById("search-results-dropdown");
