@@ -174,6 +174,29 @@ function checkDailyStreak() {
   saveProfile();
 }
 
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  
+  // Save preference
+  localStorage.setItem("conceptDeckDarkMode", isDark);
+  
+  // Update button icon dynamically
+  const btn = document.getElementById("dark-mode-btn");
+  if (btn) {
+    btn.innerText = isDark ? "☀️" : "🌙";
+  }
+}
+
+// Check saved dark mode preference when the app loads
+window.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("conceptDeckDarkMode") === "true") {
+    document.body.classList.add("dark-mode");
+    const btn = document.getElementById("dark-mode-btn");
+    if (btn) btn.innerText = "☀️";
+  }
+});
+
 function checkMilestoneBadges() {
   const badges = [];
   if (userProfile.totalCorrect >= 3) badges.push("⭐ Quiz Master");

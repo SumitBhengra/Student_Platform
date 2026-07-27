@@ -34,6 +34,86 @@ body {
     margin: 0;
   }
 
+body.dark-mode {
+  --bg-primary: #0f172a;
+  --bg-card: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+}
+
+/* Optional: Make the search bar and input backgrounds look great in dark mode */
+body.dark-mode .search-container input,
+body.dark-mode .input-group input {
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+body.dark-mode .search-dropdown {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+body.dark-mode .search-item:hover {
+  background: rgba(79, 70, 229, 0.15);
+}
+
+/* --- DARK MODE FIXES FOR QUIZZES & EXAM ARENA --- */
+
+body.dark-mode .quiz-question-card {
+  background: #334155;
+  border-color: #475569;
+}
+
+body.dark-mode .quiz-question-card p {
+  color: var(--text-main);
+}
+
+body.dark-mode .quiz-option-btn {
+  background: #1e293b;
+  color: var(--text-main);
+  border-color: #475569;
+}
+
+body.dark-mode .quiz-option-btn:hover:not(:disabled) {
+  background: #334155;
+  border-color: var(--accent-color);
+}
+
+body.dark-mode .solution-box {
+  background: #1e293b;
+  color: var(--text-main);
+  border-color: #475569;
+}
+
+body.dark-mode .difficulty-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: #334155;
+}
+
+body.dark-mode .difficulty-card h4 {
+  color: var(--text-main);
+}
+
+/* --- DARK MODE FIX FOR BACK BUTTON --- */
+body.dark-mode .back-btn {
+  background: #1e293b;
+  color: #f8fafc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .back-btn:hover {
+  background: #334155;
+  color: var(--accent-color);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+}
+
+/* --- DARK MODE FIX FOR CARD CLICK FLASH --- */
+body.dark-mode .selection-card.clicked {
+  background-color: #334155 !important; /* Muted dark slate tone instead of bright white */
+  border-color: var(--accent-color);
+}
+
   .app-container {
     width: 100% !important;
     max-width: 100% !important;
