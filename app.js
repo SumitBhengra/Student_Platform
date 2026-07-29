@@ -35,6 +35,95 @@ const conceptDeckData = {
       }
     }
   }
+},
+    "class-10": {
+    name: "Class 10",
+    subjects: {
+      mathematics: {
+        title: "Mathematics",
+        icon: "📐",
+        chapters: [
+          { 
+            id: "m10-1", 
+            title: "Commercial Mathematics (GST & Banking)", 
+            summary: "Computation of GST on goods and services, recurring deposit accounts, maturity value, and interest calculations.", 
+            question: "A man deposits Rs 1000 per month in a recurring deposit account for 2 years at 6% p.a. simple interest. Find the maturity value.",
+            quiz: [
+              { q: "GST stands for:", options: ["Goods and Services Tax", "General Sales Tax", "Government State Tax", "Global Service Tariff"], correct: 0 },
+              { q: "In a recurring deposit account, interest is calculated on:", options: ["Monthly principal", "Total yearly amount", "Maturity amount", "Principal at the end of the year"], correct: 0 }
+            ]
+          },
+          { 
+            id: "m10-2", 
+            title: "Quadratic Equations", 
+            summary: "Solving quadratic equations by factorization, completing the square, and using the quadratic formula (Sridharacharya method).", 
+            question: "Find the roots of the equation: 2x² - 5x + 3 = 0.",
+            quiz: [
+              { q: "The discriminant of a quadratic equation ax² + bx + c = 0 is given by:", options: ["b² - 4ac", "b² + 4ac", "4ab - c²", "a² - 4bc"], correct: 0 },
+              { q: "If the discriminant is less than zero, the roots are:", options: ["Real and equal", "Real and distinct", "Imaginary / Unreal", "Undefined"], correct: 2 }
+            ]
+          }
+        ]
+      },
+      physics: {
+        title: "Physics",
+        icon: "⚡",
+        chapters: [
+          { 
+            id: "p10-1", 
+            title: "Force, Work, Power and Energy", 
+            summary: "Moments of force, equilibrium, centre of gravity, work-energy theorem, and conservation of energy.", 
+            question: "Calculate the work done when a force of 20N displaces a body by 5m in the direction of force.",
+            quiz: [
+              { q: "The turning effect of a force about a pivot is called:", options: ["Moment of force", "Momentum", "Pressure", "Thrust"], correct: 0 },
+              { q: "What is the SI unit of work?", options: ["Watt", "Newton", "Joule", "Pascal"], correct: 1 }
+            ]
+          },
+          { 
+            id: "p10-2", 
+            title: "Light: Refraction through Lenses", 
+            summary: "Refraction laws, refractive index, lens formulas, magnification, and ray diagrams.", 
+            question: "Find the focal length of a convex lens if an object placed at 20cm produces a real image of the same size.",
+            quiz: [
+              { q: "Power of a concave lens is always:", options: ["Positive", "Negative", "Zero", "Infinite"], correct: 1 },
+              { q: "Which lens is used to correct myopia (nearsightedness)?", options: ["Convex lens", "Concave lens", "Cylindrical lens", "Plane glass"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      chemistry: {
+        title: "Chemistry",
+        icon: "🧪",
+        chapters: [
+          { 
+            id: "c10-1", 
+            title: "Periodic Table & Periodic Properties", 
+            summary: "Modern periodic table, periods and groups, trends in valency, atomic size, metallic character, and electron affinity.", 
+            question: "Name the element in Period 3 with the highest electronegativity.",
+            quiz: [
+              { q: "Across a period from left to right, atomic size generally:", options: ["Increases", "Decreases", "Remains constant", "Doubles"], correct: 1 },
+              { q: "Elements in Group 17 are known as:", options: ["Alkali metals", "Halogens", "Noble gases", "Alkaline earth metals"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      biology: {
+        title: "Biology",
+        icon: "🧬",
+        chapters: [
+          { 
+            id: "b10-1", 
+            title: "Cell Cycle and Cell Division", 
+            summary: "Structure of chromosomes, mitosis, meiosis, and their significance in growth, repair, and reproduction.", 
+            question: "What is the resting phase between two successive cell divisions called?",
+            quiz: [
+              { q: "Mitosis results in the production of:", options: ["Two genetically identical daughter cells", "Four haploid cells", "Genetically diverse gametes", "Anucleated cells"], correct: 0 },
+              { q: "Crossing over takes place during which phase of meiosis?", options: ["Prophase I", "Metaphase II", "Anaphase I", "Telophase II"], correct: 0 }
+            ]
+          }
+        ]
+      }
+    }
 };
 
 // Scalable ICSE Question Bank organized by Class and Subject
@@ -110,6 +199,50 @@ const arenaQuestionBank = {
       }
     }
   }
+},
+  "class-10": {
+    title: "Class 10",
+    icon: "📜",
+    subjects: {
+      physics: {
+        title: "Physics",
+        icon: "⚡",
+        levels: {
+          easy: [
+            { q: "What is the condition for a body to be in translational equilibrium?", options: ["Sum of forces = 0", "Sum of torques = 0", "Velocity = 0", "Mass = 0"], correct: 0 },
+            { q: "The angle of deviation in a prism depends on:", options: ["Angle of incidence", "Color of light", "Material of prism", "All of the above"], correct: 3 }
+          ],
+          medium: [
+            { q: "A force of 10N acts at a perpendicular distance of 50cm from a pivot. Calculate the moment of force.", options: ["5 Nm", "50 Nm", "0.5 Nm", "500 Nm"], correct: 0 }
+          ],
+          hard: [
+            { q: "An electric bulb is rated 220V, 100W. Calculate the resistance of its filament.", options: ["220 ohms", "484 ohms", "48.4 ohms", "100 ohms"], correct: 1 }
+          ]
+        },
+        boardMock: [
+          { q: "ICSE Board Mock: Which of the following radiations has the highest frequency?", options: ["Infrared waves", "Ultraviolet rays", "X-rays", "Microwaves"], correct: 2 },
+          { q: "ICSE Board Mock: A block and tackle system has a velocity ratio of 4. If its efficiency is 80%, find its mechanical advantage.", options: ["3.2", "4", "5", "3.0"], correct: 0 }
+        ]
+      },
+      mathematics: {
+        title: "Mathematics",
+        icon: "📐",
+        levels: {
+          easy: [
+            { q: "If the roots of a quadratic equation are real and equal, the discriminant is:", options: ["Greater than zero", "Equal to zero", "Less than zero", "Undefined"], correct: 1 }
+          ],
+          medium: [
+            { q: "Find the 10th term of the Arithmetic Progression: 2, 5, 8, 11, ...", options: ["29", "32", "35", "28"], correct: 0 }
+          ],
+          hard: [
+            { q: "If the sum of first n terms of an AP is given by Sn = 3n² + 5n, find the 2nd term.", options: ["10", "14", "18", "8"], correct: 1 }
+          ]
+        },
+        boardMock: [
+          { q: "ICSE Board Mock: A matrix of order 3×2 has how many elements?", options: ["5", "6", "9", "3"], correct: 1 }
+        ]
+      }
+    }
 };
 
 // State tracker for selected Class & Subject
