@@ -36,7 +36,7 @@ const conceptDeckData = {
     }
   }
 },
-    "class-10": {
+  "class-10": {
     name: "Class 10",
     subjects: {
       mathematics: {
@@ -200,7 +200,7 @@ const arenaQuestionBank = {
     }
   }
 },
-  "class-10": {
+"class-10": {
     title: "Class 10",
     icon: "📜",
     subjects: {
