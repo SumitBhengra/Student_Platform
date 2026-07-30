@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -201,6 +202,67 @@
         <h2 id="quiz-active-title">Exam in Progress</h2>
       </header>
       <div id="quiz-active-container" class="practice-card"></div>
+    </section>
+    <!-- 👇 PASTE THE SECRET ADMIN SCREEN RIGHT HERE 👇 -->
+    <section id="admin-screen" class="screen">
+      <header class="screen-header">
+        <button class="back-btn" onclick="renderDashboard()">← Back</button>
+        <h2>🛠️ Content Studio</h2>
+      </header>
+
+      <div class="auth-card" style="max-width: 500px; text-align: left; margin: 0 auto;">
+        <h3>Add New Chapter</h3>
+        
+        <div class="input-group">
+          <label>Select Class</label>
+          <select id="admin-grade" class="admin-input" style="width: 100%; padding: 10px; border-radius: 8px;">
+            <option value="class-7">Class 7</option>
+            <option value="class-8">Class 8</option>
+            <option value="class-9">Class 9</option>
+            <option value="class-10">Class 10</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Select Subject</label>
+          <select id="admin-subject" class="admin-input" style="width: 100%; padding: 10px; border-radius: 8px;">
+            <option value="math">Mathematics</option>
+            <option value="physics">Physics</option>
+            <option value="chemistry">Chemistry</option>
+            <option value="biology">Biology</option>
+            <option value="history">History & Civics</option>
+            <option value="geography">Geography</option>
+            <option value="computers">Computer Studies</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Chapter ID (e.g. m7-3)</label>
+          <input type="text" id="admin-chapter-id" placeholder="m7-3" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+          <label>Chapter Title</label>
+          <input type="text" id="admin-title" placeholder="e.g. Lines and Angles" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+          <label>Summary / Core Concept</label>
+          <textarea id="admin-summary" rows="3" placeholder="Brief summary of the chapter..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label>Practice Question</label>
+          <textarea id="admin-question" rows="2" placeholder="Practice problem prompt..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label>Step-by-Step Solution</label>
+          <textarea id="admin-solution" rows="3" placeholder="Detailed solution steps..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
+        </div>
+
+        <button type="button" class="primary-btn" onclick="publishChapterToSupabase()" style="margin-top: 15px;">🚀 Publish Chapter Live</button>
+      </div>
     </section>
 
   </div>
