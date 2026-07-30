@@ -1130,15 +1130,38 @@ function renderSubjects(gradeKey) {
   switchScreen("subject-screen");
 }
 
-// 3. Render Chapter Roadmap
-function renderChapters(gradeKey, subjectKey) {
-  const subjectData = conceptDeckData[gradeKey].subjects[subjectKey];
+// 3. Render Chapter Roadmap (Combines Static Data + Live Supabase Data)
+async function renderChapters(gradeKey, subjectKey) {
+  const subjectData = conceptDeckData[gradeKey]?.subjects[subjectKey];
   const chapterList = document.getElementById("chapter-list");
-  document.getElementById("chapter-screen-title").innerText = `${subjectData.title} Chapters`;
   
+  if (subjectData) {
+    document.getElementById("chapter-screen-title").innerText = `${subjectData.title} Chapters`;
+  } else {
+    document.getElementById("chapter-screen-title").innerText = "Chapters";
+  }
+
+  chapterList.innerHTML = `<p style="text-align: center; color: var(--text-muted);">⏳ Loading chapters...</p>`;
+
+  // 1. Get hardcoded local chapters if present
+  const localChapters = subjectData?.chapters || [];
+
+  // 2. Fetch live published chapters from Supabase
+  const supabaseChapters = await fetchChaptersFromSupabase(gradeKey, subjectKey);
+
+  // 3. Combine both sources into one list
+  const allChapters = [...localChapters, ...supabaseChapters];
+
   chapterList.innerHTML = "";
 
-  subjectData.chapters.forEach((ch, index) => {
+  if (allChapters.length === 0) {
+    chapterList.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 20px;">No chapters available yet for this subject.</p>`;
+    switchScreen("chapter-screen");
+    return;
+  }
+
+  // 4. Render all combined chapters on the roadmap
+  allChapters.forEach((ch, index) => {
     const row = document.createElement("div");
     row.className = "chapter-row";
     row.innerHTML = `
@@ -1148,12 +1171,10 @@ function renderChapters(gradeKey, subjectKey) {
       </div>
       <div class="chapter-action">Start →</div>
     `;
-
     row.addEventListener("click", () => {
       currentSelection.chapter = ch;
       renderPracticeView(gradeKey, subjectKey, ch);
     });
-
     chapterList.appendChild(row);
   });
 
