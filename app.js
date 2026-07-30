@@ -1,3 +1,89 @@
+// ==========================================
+// SUPABASE CLIENT INITIALIZATION & ADMIN ENGINE
+// ==========================================
+const SUPABASE_URL = "https://ngvlbvhsnfhuivbbrynp.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ndmxidmhzbmZodWl2YmJyeW5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0MjM5MjcsImV4cCI6MjEwMDk5OTkyN30.uWhGx8DhA2a-xpe6S3sQ4_8SlpSS7QytNfwXX9EialI";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Publish Chapter directly from the Admin Panel form to Supabase
+async function publishChapterToSupabase() {
+  const gradeKey = document.getElementById("admin-grade").value;      // 👈 Captures Class selection (class-7, class-8, etc.)
+  const subjectKey = document.getElementById("admin-subject").value;  // 👈 Captures Subject selection
+  const chapterId = document.getElementById("admin-chapter-id").value.trim();
+  const title = document.getElementById("admin-title").value.trim();
+  const summary = document.getElementById("admin-summary").value.trim();
+  const question = document.getElementById("admin-question").value.trim();
+  const solution = document.getElementById("admin-solution").value.trim();
+
+  if (!chapterId || !title || !summary) {
+    alert("Please fill in at least Chapter ID, Title, and Summary!");
+    return;
+  }
+
+  const newChapter = {
+    id: chapterId,
+    grade_key: gradeKey,
+    subject_key: subjectKey,
+    title: title,
+    summary: summary,
+    question: question,
+    solution: solution
+  };
+
+  const { data, error } = await supabaseClient
+    .from('chapters')
+    .insert([newChapter]);
+
+  if (error) {
+    alert("Error publishing chapter: " + error.message);
+  } else {
+    alert(`🎉 Chapter "${title}" published live to ${gradeKey.toUpperCase()} successfully!`);
+    renderDashboard();
+  }
+}
+// ==========================================
+// ADMIN LOGIN ENGINE
+// ==========================================
+async function adminLogin() {
+  const email = document.getElementById("admin-email").value.trim();
+  const password = document.getElementById("admin-password").value.trim();
+
+  if (!email || !password) {
+    alert("Please enter both your Admin email and password!");
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    alert("Login failed: " + error.message);
+  } else {
+    alert("🎉 Logged in as Admin! Publishing controls unlocked.");
+    // Hide login box & display chapter form
+    document.getElementById("admin-login-box").style.display = "none";
+    document.getElementById("admin-form-box").style.display = "block";
+  }
+}
+// Fetch Chapters Dynamically from Supabase
+async function fetchChaptersFromSupabase(gradeKey, subjectKey) {
+  const { data, error } = await supabaseClient
+    .from('chapters')
+    .select('*')
+    .eq('grade_key', gradeKey)
+    .eq('subject_key', subjectKey);
+
+  if (error) {
+    console.error("Error fetching chapters from Supabase:", error);
+    return [];
+  }
+  return data || [];
+}
+// ==========================================
+// EXISTING CODE BELOW (conceptDeckData...)
+// ==========================================
 // ConceptDeck Curriculum Database
 const conceptDeckData = {
   "class-7": {
