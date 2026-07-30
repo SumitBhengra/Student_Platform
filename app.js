@@ -1110,7 +1110,190 @@ function updateBookmarkButtonState() {
     bookmarkBtn.classList.remove("bookmarked");
   }
 }
+// ==========================================
+// FLASHCARD ENGINE STATE & CONTROLLER
+// ==========================================
+let activeFlashcardState = {
+  cards: [],
+  currentIndex: 0,
+  isFlipped: false,
+  masteredCount: 0
+};
 
+function getChapterFlashcards(chapter) {
+  if (chapter.flashcards && chapter.flashcards.length > 0) {
+    return chapter.flashcards;
+  }
+  
+  const fallbackDeck = [];
+  if (chapter.summary) {
+    fallbackDeck.push({
+      front: `What is the core summary of "${chapter.title}"?`,
+      back: chapter.summary
+    });
+  }
+  if (chapter.question) {
+    fallbackDeck.push({
+      front: `Practice Problem Prompt: ${chapter.title}`,
+      back: chapter.question
+    });
+  }
+  if (chapter.quiz && chapter.quiz.length > 0) {
+    chapter.quiz.forEach(qItem => {
+      fallbackDeck.push({
+        front: qItem.q,
+        back: `Answer: ${qItem.options[qItem.correct]}`
+      });
+    });
+  }
+  return fallbackDeck;
+}
+
+function renderFlashcardComponent(chapter) {
+  const cards = getChapterFlashcards(chapter);
+  if (!cards || cards.length === 0) return "";
+
+  activeFlashcardState = {
+    cards: cards,
+    currentIndex: 0,
+    isFlipped: false,
+    masteredCount: 0
+  };
+
+  return `
+    <div class="flashcard-deck-container" id="flashcard-deck-module">
+      <div class="flashcard-header">
+        <h3 style="font-size: 0.95rem; margin: 0; display: flex; align-items: center; gap: 6px;">
+          🎴 Active Recall Flashcards
+        </h3>
+        <span id="flashcard-counter-tag" style="font-size: 0.8rem; font-weight: 700; color: #6366f1;">
+          1 / ${cards.length}
+        </span>
+      </div>
+
+      <div class="flashcard-progress-bar-bg">
+        <div class="flashcard-progress-bar-fill" id="flashcard-progress-fill" style="width: ${Math.round((1 / cards.length) * 100)}%;"></div>
+      </div>
+
+      <!-- 3D FLIP CONTAINER -->
+      <div class="flashcard-3d-wrapper" onclick="toggleFlashcardFlip()">
+        <div class="flashcard-inner" id="active-flashcard-inner">
+          
+          <!-- FRONT FACE -->
+          <div class="flashcard-face flashcard-front">
+            <span class="flashcard-badge">Question / Concept</span>
+            <div class="flashcard-body-text" id="flashcard-front-text">${cards[0].front}</div>
+            <span class="flashcard-hint-text">🔄 Tap anywhere to flip</span>
+          </div>
+
+          <!-- BACK FACE -->
+          <div class="flashcard-face flashcard-back">
+            <span class="flashcard-badge">Answer & Solution</span>
+            <div class="flashcard-body-text" id="flashcard-back-text">${cards[0].back}</div>
+            <span class="flashcard-hint-text">How well did you recall this?</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RATING ACTION BUTTONS -->
+      <div class="flashcard-rating-bar" id="flashcard-rating-controls" style="visibility: hidden;">
+        <button class="flashcard-btn btn-review-again" onclick="rateFlashcard('review')">
+          🔴 Needs Review
+        </button>
+        <button class="flashcard-btn btn-got-it" onclick="rateFlashcard('mastered')">
+          🟢 Got It!
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function toggleFlashcardFlip() {
+  const innerCard = document.getElementById("active-flashcard-inner");
+  const ratingControls = document.getElementById("flashcard-rating-controls");
+  
+  if (!innerCard) return;
+
+  activeFlashcardState.isFlipped = !activeFlashcardState.isFlipped;
+  
+  if (activeFlashcardState.isFlipped) {
+    innerCard.classList.add("is-flipped");
+    if (ratingControls) ratingControls.style.visibility = "visible";
+  } else {
+    innerCard.classList.remove("is-flipped");
+  }
+}
+
+function rateFlashcard(rating) {
+  const state = activeFlashcardState;
+  const currentCard = state.cards[state.currentIndex];
+
+  if (rating === "review") {
+    state.cards.push(currentCard);
+  } else if (rating === "mastered") {
+    state.masteredCount++;
+  }
+
+  state.currentIndex++;
+  state.isFlipped = false;
+
+  const innerCard = document.getElementById("active-flashcard-inner");
+  const ratingControls = document.getElementById("flashcard-rating-controls");
+  
+  if (innerCard) innerCard.classList.remove("is-flipped");
+  if (ratingControls) ratingControls.style.visibility = "hidden";
+
+  if (state.currentIndex >= state.cards.length) {
+    renderFlashcardDeckCompletion();
+    return;
+  }
+
+  setTimeout(() => {
+    updateFlashcardDOM();
+  }, 250);
+}
+
+function updateFlashcardDOM() {
+  const state = activeFlashcardState;
+  const card = state.cards[state.currentIndex];
+
+  const frontText = document.getElementById("flashcard-front-text");
+  const backText = document.getElementById("flashcard-back-text");
+  const counterTag = document.getElementById("flashcard-counter-tag");
+  const progressFill = document.getElementById("flashcard-progress-fill");
+
+  if (frontText) frontText.innerText = card.front;
+  if (backText) backText.innerText = card.back;
+  
+  if (counterTag) {
+    counterTag.innerText = `${state.currentIndex + 1} / ${state.cards.length}`;
+  }
+
+  if (progressFill) {
+    const percent = Math.round(((state.currentIndex + 1) / state.cards.length) * 100);
+    progressFill.style.width = `${percent}%`;
+  }
+}
+
+function renderFlashcardDeckCompletion() {
+  const moduleContainer = document.getElementById("flashcard-deck-module");
+  if (!moduleContainer) return;
+
+  moduleContainer.innerHTML = `
+    <div class="quiz-completion-banner" style="margin: 0; text-align: center; padding: 24px;">
+      <div class="completion-content">
+        <h4 style="color: #10b981; font-size: 1.1rem; margin-bottom: 6px;">🎉 Flashcard Deck Mastered!</h4>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+          You reviewed all ${activeFlashcardState.cards.length} cards in this chapter.
+        </p>
+        <button class="primary-btn sm" onclick="renderPracticeView(currentSelection.grade, currentSelection.subject, currentSelection.chapter)">
+          🔄 Practice Again
+        </button>
+      </div>
+    </div>
+  `;
+}
 // 4. Render Practice & Quiz View
 function renderPracticeView(gradeKey, subjectKey, chapter) {
   currentSelection.grade = gradeKey;
@@ -1153,13 +1336,16 @@ function renderPracticeView(gradeKey, subjectKey, chapter) {
   contentArea.innerHTML = `
     <h3>Core Concept Review</h3>
     <p>${chapter.summary}</p>
+
+    <!-- 👇 THIS CALLS THE FLASHCARD COMPONENT WE JUST PASTED -->
+    ${renderFlashcardComponent(chapter)}
     
     <div class="sample-quiz-box">
       <h3>Quick Check Practice Problem</h3>
       <p><strong>Problem:</strong> ${chapter.question}</p>
       <button class="action-btn" id="toggle-solution-btn">Reveal Step-by-Step Solution</button>
       <div id="solution-container" class="solution-box hidden">
-        <p><strong>Solution Guide:</strong> Apply fundamental formulas, verify given values with standard SI units, and substitute step-by-step.</p>
+        <p><strong>Solution Guide:</strong> ${chapter.solution || chapter.summary}</p>
       </div>
     </div>
 
