@@ -203,7 +203,7 @@
       </header>
       <div id="quiz-active-container" class="practice-card"></div>
     </section>
-    <!-- 👇 PASTE THE SECRET ADMIN SCREEN RIGHT HERE 👇 -->
+    <!-- SECRET ADMIN / CREATOR PANEL -->
     <section id="admin-screen" class="screen">
       <header class="screen-header">
         <button class="back-btn" onclick="renderDashboard()">← Back</button>
@@ -211,57 +211,80 @@
       </header>
 
       <div class="auth-card" style="max-width: 500px; text-align: left; margin: 0 auto;">
-        <h3>Add New Chapter</h3>
         
-        <div class="input-group">
-          <label>Select Class</label>
-          <select id="admin-grade" class="admin-input" style="width: 100%; padding: 10px; border-radius: 8px;">
-            <option value="class-7">Class 7</option>
-            <option value="class-8">Class 8</option>
-            <option value="class-9">Class 9</option>
-            <option value="class-10">Class 10</option>
-          </select>
+        <!-- 🔐 1. ADMIN LOGIN BOX (SHOWN FIRST) -->
+        <div id="admin-login-box">
+          <h3>Admin Authentication</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Please log in to publish live content.</p>
+          
+          <div class="input-group">
+            <label>Admin Email</label>
+            <input type="email" id="admin-email" placeholder="admin@example.com" autocomplete="off">
+          </div>
+
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="admin-password" placeholder="••••••••" autocomplete="off">
+          </div>
+
+          <button type="button" class="primary-btn" onclick="adminLogin()" style="margin-top: 10px;">🔐 Log In as Admin</button>
         </div>
 
-        <div class="input-group">
-          <label>Select Subject</label>
-          <select id="admin-subject" class="admin-input" style="width: 100%; padding: 10px; border-radius: 8px;">
-            <option value="math">Mathematics</option>
-            <option value="physics">Physics</option>
-            <option value="chemistry">Chemistry</option>
-            <option value="biology">Biology</option>
-            <option value="history">History & Civics</option>
-            <option value="geography">Geography</option>
-            <option value="computers">Computer Studies</option>
-          </select>
+        <!-- 📝 2. CHAPTER PUBLISH FORM (HIDDEN UNTIL LOGGED IN) -->
+        <div id="admin-form-box" style="display: none;">
+          <h3>Add New Chapter</h3>
+          
+          <div class="input-group">
+            <label>Select Class</label>
+            <select id="admin-grade" class="admin-input" style="width: 100%; padding: 10px; border-radius: 8px;">
+              <option value="class-7">Class 7</option>
+              <option value="class-8">Class 8</option>
+              <option value="class-9">Class 9</option>
+              <option value="class-10">Class 10</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Select Subject</label>
+            <select id="admin-subject" class="admin-input" style="width: 100%; padding: 10px; border-radius: 8px;">
+              <option value="math">Mathematics</option>
+              <option value="physics">Physics</option>
+              <option value="chemistry">Chemistry</option>
+              <option value="biology">Biology</option>
+              <option value="history">History & Civics</option>
+              <option value="geography">Geography</option>
+              <option value="computers">Computer Studies</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Chapter ID (e.g. m7-3)</label>
+            <input type="text" id="admin-chapter-id" placeholder="m7-3" autocomplete="off">
+          </div>
+
+          <div class="input-group">
+            <label>Chapter Title</label>
+            <input type="text" id="admin-title" placeholder="e.g. Lines and Angles" autocomplete="off">
+          </div>
+
+          <div class="input-group">
+            <label>Summary / Core Concept</label>
+            <textarea id="admin-summary" rows="3" placeholder="Brief summary of the chapter..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
+          </div>
+
+          <div class="input-group">
+            <label>Practice Question</label>
+            <textarea id="admin-question" rows="2" placeholder="Practice problem prompt..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
+          </div>
+
+          <div class="input-group">
+            <label>Step-by-Step Solution</label>
+            <textarea id="admin-solution" rows="3" placeholder="Detailed solution steps..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
+          </div>
+
+          <button type="button" class="primary-btn" onclick="publishChapterToSupabase()" style="margin-top: 15px;">🚀 Publish Chapter Live</button>
         </div>
 
-        <div class="input-group">
-          <label>Chapter ID (e.g. m7-3)</label>
-          <input type="text" id="admin-chapter-id" placeholder="m7-3" autocomplete="off">
-        </div>
-
-        <div class="input-group">
-          <label>Chapter Title</label>
-          <input type="text" id="admin-title" placeholder="e.g. Lines and Angles" autocomplete="off">
-        </div>
-
-        <div class="input-group">
-          <label>Summary / Core Concept</label>
-          <textarea id="admin-summary" rows="3" placeholder="Brief summary of the chapter..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
-        </div>
-
-        <div class="input-group">
-          <label>Practice Question</label>
-          <textarea id="admin-question" rows="2" placeholder="Practice problem prompt..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
-        </div>
-
-        <div class="input-group">
-          <label>Step-by-Step Solution</label>
-          <textarea id="admin-solution" rows="3" placeholder="Detailed solution steps..." style="width: 100%; border-radius: 8px; padding: 10px;"></textarea>
-        </div>
-
-        <button type="button" class="primary-btn" onclick="publishChapterToSupabase()" style="margin-top: 15px;">🚀 Publish Chapter Live</button>
       </div>
     </section>
 
