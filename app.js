@@ -1,5 +1,104 @@
 // ConceptDeck Curriculum Database
 const conceptDeckData = {
+  "class-7": {
+    name: "Class 7",
+    subjects: {
+      math: {
+        title: "Mathematics",
+        icon: "📐",
+        chapters: [
+          { 
+            id: "m7-1", 
+            title: "Integers & Operations", 
+            summary: "Properties of addition, subtraction, multiplication, and division of positive and negative integers.", 
+            question: "Evaluate: (-15) × (-4) + (-12) ÷ 3.",
+            quiz: [
+              { q: "What is the product of two negative integers?", options: ["Negative Integer", "Positive Integer", "Zero", "Undefined"], correct: 1 },
+              { q: "Which property states that a + b = b + a?", options: ["Associative", "Commutative", "Distributive", "Closure"], correct: 1 }
+            ]
+          },
+          { 
+            id: "m7-2", 
+            title: "Fractions and Decimals", 
+            summary: "Operations on proper, improper fractions, mixed numbers, and decimal calculations.", 
+            question: "Evaluate: 3/4 ÷ 1/2.",
+            quiz: [
+              { q: "What is 3/4 ÷ 1/2?", options: ["3/8", "3/2", "2/3", "1/4"], correct: 1 },
+              { q: "To divide fractions, you multiply by the:", options: ["Numerator", "Reciprocal", "Denominator", "LCM"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      physics: {
+        title: "Physics",
+        icon: "⚡",
+        chapters: [
+          { 
+            id: "p7-1", 
+            title: "Physical Quantities and Measurement", 
+            summary: "Measurement of area, volume, density, and speed with standard units.", 
+            question: "Find the density of a block of mass 200g and volume 50 cm³.",
+            quiz: [
+              { q: "What is the SI unit of density?", options: ["g/cm³", "kg/m³", "kg/cm³", "m³/kg"], correct: 1 },
+              { q: "Density is defined as:", options: ["Mass × Volume", "Mass ÷ Volume", "Volume ÷ Mass", "Force × Area"], correct: 1 }
+            ]
+          },
+          {
+            id: "p7-2",
+            title: "Force and Motion",
+            summary: "Types of motion, speed calculations, and effects of friction.",
+            question: "A bicycle travels 100 meters in 20 seconds. Calculate its speed.",
+            quiz: [
+              { q: "What is the SI unit of speed?", options: ["km/h", "m/s", "m/s²", "cm/s"], correct: 1 },
+              { q: "A motion that repeats itself at regular intervals is called:", options: ["Translatory", "Periodic", "Rotational", "Random"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      chemistry: {
+        title: "Chemistry",
+        icon: "🧪",
+        chapters: [
+          { 
+            id: "c7-1", 
+            title: "Matter and Its Composition", 
+            summary: "States of matter, molecular arrangements, and interconversion of states.", 
+            question: "Explain why gases are highly compressible compared to solids.",
+            quiz: [
+              { q: "The process of a solid changing directly into a gas is called:", options: ["Evaporation", "Condensation", "Sublimation", "Melting"], correct: 2 },
+              { q: "In which state of matter are intermolecular forces the strongest?", options: ["Solid", "Liquid", "Gas", "Plasma"], correct: 0 }
+            ]
+          },
+          {
+            id: "c7-2",
+            title: "Elements, Compounds and Mixtures",
+            summary: "Symbols, formulas, homogenous/heterogenous mixtures, and separation techniques.",
+            question: "Name the method used to separate iron filings from sand.",
+            quiz: [
+              { q: "Pure water is an example of a:", options: ["Element", "Compound", "Mixture", "Solution"], correct: 1 },
+              { q: "Which technique is used to separate insoluble solids from liquids?", options: ["Evaporation", "Filtration", "Distillation", "Sublimation"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      biology: {
+        title: "Biology",
+        icon: "🧬",
+        chapters: [
+          { 
+            id: "b7-1", 
+            title: "Plant and Animal Tissues", 
+            summary: "Meristematic vs permanent tissues in plants; epithelial, connective, muscular, and nerve tissues in animals.", 
+            question: "Differentiate between xylem and phloem tissues.",
+            quiz: [
+              { q: "Which plant tissue conducts water and minerals from roots to leaves?", options: ["Phloem", "Xylem", "Parenchyma", "Collenchyma"], correct: 1 },
+              { q: "Which tissue connects muscles to bones?", options: ["Ligament", "Tendon", "Cartilage", "Epithelium"], correct: 1 }
+            ]
+          }
+        ]
+      }
+    }
+  },
   "class-8": {
     name: "Class 8",
     subjects: {
@@ -128,6 +227,49 @@ const conceptDeckData = {
 
 // Scalable ICSE Question Bank organized by Class and Subject
 const arenaQuestionBank = {
+  "class-7": {
+    title: "Class 7",
+    icon: "📚",
+    subjects: {
+      math: {
+        title: "Mathematics",
+        icon: "📐",
+        levels: {
+          easy: [
+            { q: "What is (-5) × (-6)?", options: ["-30", "30", "11", "-11"], correct: 1 },
+            { q: "A triangle with 3 equal sides is:", options: ["Isosceles", "Scalene", "Equilateral", "Right-angled"], correct: 2 }
+          ],
+          medium: [
+            { q: "Solve for x: 2x + 5 = 15", options: ["x = 10", "x = 5", "x = 8", "x = 2"], correct: 1 }
+          ],
+          hard: [
+            { q: "Find the perimeter of a rectangle with length 8cm and breadth 5cm.", options: ["26 cm", "40 cm", "13 cm", "30 cm"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "Evaluate: 3/4 + 2/5", options: ["23/20", "5/9", "6/20", "1/2"], correct: 0 }
+        ]
+      },
+      physics: {
+        title: "Physics",
+        icon: "⚡",
+        levels: {
+          easy: [
+            { q: "What is the SI unit of density?", options: ["g/cm³", "kg/m³", "g/m³", "kg/cm³"], correct: 1 }
+          ],
+          medium: [
+            { q: "Calculate speed if distance = 100m and time = 20s.", options: ["5 m/s", "20 m/s", "2000 m/s", "0.2 m/s"], correct: 0 }
+          ],
+          hard: [
+            { q: "Density = 8 g/cm³, Volume = 25 cm³. Find Mass.", options: ["200 g", "3.125 g", "0.32 g", "100 g"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "A motion that repeats itself at regular intervals is:", options: ["Periodic motion", "Translatory motion", "Random motion", "Circular motion"], correct: 0 }
+        ]
+      }
+    }
+  },
   "class-8": {
     title: "Class 8",
     icon: "🎓",
