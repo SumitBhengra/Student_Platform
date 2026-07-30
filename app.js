@@ -184,7 +184,132 @@ const conceptDeckData = {
         title: "Mathematics",
         icon: "📐",
         chapters: [
-          { id: "ch1", title: "Rational Numbers", summary: "Properties of rational numbers, closure, associativity, and number line representation.", question: "Find five rational numbers between -2/3 and 1/4." }
+          { 
+            id: "m8-1", 
+            title: "Rational Numbers", 
+            summary: "Properties of rational numbers, closure, commutativity, associativity, and representation on a number line.", 
+            question: "Find three rational numbers between -2/3 and 1/4.",
+            quiz: [
+              { q: "Which of the following is a positive rational number?", options: ["-3/5", "4/7", "-2/3", "-5/8"], correct: 1 },
+              { q: "What is the additive inverse of -5/9?", options: ["-9/5", "5/9", "9/5", "-5/9"], correct: 1 }
+            ]
+          },
+          {
+            id: "m8-2",
+            title: "Exponents and Powers",
+            summary: "Laws of exponents, negative exponents, and standard scientific notation.",
+            question: "Simplify: (2³ × 2⁻⁵) ÷ 2⁻².",
+            quiz: [
+              { q: "Any non-zero number raised to the power 0 equals:", options: ["0", "1", "The number itself", "Infinity"], correct: 1 },
+              { q: "What is the value of 5⁻²?", options: ["-10", "-25", "1/25", "1/10"], correct: 2 }
+            ]
+          }
+        ]
+      },
+      physics: {
+        title: "Physics",
+        icon: "⚡",
+        chapters: [
+          { 
+            id: "p8-1", 
+            title: "Matter & Kinetic Theory", 
+            summary: "Kinetic molecular theory of matter, states of matter, and change of state.", 
+            question: "Explain the process of vaporization in terms of kinetic theory.",
+            quiz: [
+              { q: "As temperature increases, the kinetic energy of molecules:", options: ["Decreases", "Increases", "Remains constant", "Becomes zero"], correct: 1 },
+              { q: "The process of a gas turning into a liquid is called:", options: ["Freezing", "Condensation", "Sublimation", "Evaporation"], correct: 1 }
+            ]
+          },
+          {
+            id: "p8-2",
+            title: "Physical Quantities and Measurement",
+            summary: "Measurement of density of irregular solids, fluids, and relative density.",
+            question: "What is relative density and what is its unit?",
+            quiz: [
+              { q: "Relative density has which unit?", options: ["g/cm³", "kg/m³", "No unit", "N/m²"], correct: 2 },
+              { q: "If relative density of a substance is > 1, it will:", options: ["Float on water", "Sink in water", "Evaporate", "Dissolve"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      chemistry: {
+        title: "Chemistry",
+        icon: "🧪",
+        chapters: [
+          { 
+            id: "c8-1", 
+            title: "Atomic Structure", 
+            summary: "Subatomic particles (protons, neutrons, electrons), atomic number, mass number, and valency.", 
+            question: "What determines the atomic number of an element?",
+            quiz: [
+              { q: "Which subatomic particle carries a negative charge?", options: ["Proton", "Neutron", "Electron", "Nucleus"], correct: 2 },
+              { q: "The total number of protons and neutrons in an atom is called its:", options: ["Atomic number", "Mass number", "Valency", "Isotope"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      biology: {
+        title: "Biology",
+        icon: "🧬",
+        chapters: [
+          { 
+            id: "b8-1", 
+            title: "Transport in Plants", 
+            summary: "Transpiration, absorption of water by roots, xylem and phloem translocation.", 
+            question: "Describe the role of stomata in transpiration.",
+            quiz: [
+              { q: "Evaporation of water from plant leaves is known as:", options: ["Respiration", "Photosynthesis", "Transpiration", "Guttation"], correct: 2 },
+              { q: "Which tissue carries prepared food from leaves to other parts of the plant?", options: ["Xylem", "Phloem", "Cambium", "Cortex"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      history: {
+        title: "History & Civics",
+        icon: "🏛️",
+        chapters: [
+          { 
+            id: "h8-1", 
+            title: "The Industrial Revolution", 
+            summary: "Causes, key inventions, and social/economic impacts of the Industrial Revolution in Britain.", 
+            question: "Name two major inventions that transformed the textile industry during the Industrial Revolution.",
+            quiz: [
+              { q: "Where did the Industrial Revolution first begin?", options: ["France", "Germany", "Britain", "USA"], correct: 2 },
+              { q: "Who invented the steam engine?", options: ["James Watt", "George Stephenson", "Eli Whitney", "Henry Ford"], correct: 0 }
+            ]
+          }
+        ]
+      },
+      geography: {
+        title: "Geography",
+        icon: "🌍",
+        chapters: [
+          { 
+            id: "g8-1", 
+            title: "Representation of Geographical Features", 
+            summary: "Topographical maps, symbols, contours, scale, and measuring distances.", 
+            question: "What do closely spaced contour lines indicate on a topographical map?",
+            quiz: [
+              { q: "Contour lines joining places of equal height are measured from:", options: ["Ground level", "Mean Sea Level", "Peak of mountain", "River bed"], correct: 1 },
+              { q: "Closely spaced contours indicate a:", options: ["Gentle slope", "Steep slope", "Flat plain", "Valley"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      computers: {
+        title: "Computer Studies",
+        icon: "💻",
+        chapters: [
+          { 
+            id: "cs8-1", 
+            title: "Operating System & Graphical User Interface", 
+            summary: "Functions of an OS, CLI vs GUI, file management, and device drivers.", 
+            question: "Distinguish between CLI and GUI with examples.",
+            quiz: [
+              { q: "Which software acts as an interface between the user and computer hardware?", options: ["Application Software", "Operating System", "Utility Program", "Compiler"], correct: 1 },
+              { q: "MS-DOS is an example of a:", options: ["GUI", "CLI (Command Line Interface)", "Web Browser", "Database"], correct: 1 }
+            ]
+          }
         ]
       }
     }
@@ -422,8 +547,115 @@ const arenaQuestionBank = {
           ]
         },
         boardMock: [
-          { q: "Class 8 Math Mock: Verify closure property for addition of rational numbers on -2/3 and 1/4.", options: ["Result is a rational number", "Result is an integer", "Result is irrational", "Undefined"], correct: 0 },
-          { q: "Class 8 Math Mock: Represent -5/4 on the number line. Between which two integers does it lie?", options: ["0 and -1", "-1 and -2", "-2 and -3", "1 and 2"], correct: 1 }
+          { q: "Class 8 Math Mock: Verify closure property for addition of rational numbers on -2/3 and 1/4.", options: ["Result is a rational number", "Result is an integer", "Result is irrational", "Undefined"], correct: 0 }
+        ]
+      },
+      physics: {
+        title: "Physics",
+        icon: "⚡",
+        levels: {
+          easy: [
+            { q: "As temperature increases, kinetic energy of molecules:", options: ["Increases", "Decreases", "Stays constant", "Becomes zero"], correct: 0 }
+          ],
+          medium: [
+            { q: "What is the unit of relative density?", options: ["kg/m³", "g/cm³", "No unit", "Pascal"], correct: 2 }
+          ],
+          hard: [
+            { q: "A body of mass 500g has volume 250 cm³. Its density is:", options: ["2 g/cm³", "0.5 g/cm³", "125 g/cm³", "1000 g/cm³"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "Class 8 Physics Mock: The process of a liquid changing to gas at a fixed temperature is:", options: ["Boiling", "Evaporation", "Sublimation", "Condensation"], correct: 0 }
+        ]
+      },
+      chemistry: {
+        title: "Chemistry",
+        icon: "🧪",
+        levels: {
+          easy: [
+            { q: "Which particle has a negative charge?", options: ["Proton", "Electron", "Neutron", "Nucleus"], correct: 1 }
+          ],
+          medium: [
+            { q: "Atomic number is equal to the number of:", options: ["Protons", "Neutrons", "Protons + Neutrons", "Valency electrons"], correct: 0 }
+          ],
+          hard: [
+            { q: "An atom has 11 protons and 12 neutrons. Its mass number is:", options: ["11", "12", "23", "1"], correct: 2 }
+          ]
+        },
+        boardMock: [
+          { q: "Class 8 Chemistry Mock: What is the maximum number of electrons in the K shell?", options: ["2", "8", "18", "32"], correct: 0 }
+        ]
+      },
+      biology: {
+        title: "Biology",
+        icon: "🧬",
+        levels: {
+          easy: [
+            { q: "Loss of water vapor from leaves is:", options: ["Transpiration", "Respiration", "Osmosis", "Diffusion"], correct: 0 }
+          ],
+          medium: [
+            { q: "Transport of food in plants takes place through:", options: ["Xylem", "Phloem", "Stomata", "Cuticle"], correct: 1 }
+          ],
+          hard: [
+            { q: "Unicellular root hairs absorb water by the process of:", options: ["Osmosis", "Transpiration", "Active transport", "Guttation"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "Class 8 Biology Mock: Which mineral is essential for chlorophyll synthesis?", options: ["Magnesium", "Iron", "Calcium", "Potassium"], correct: 0 }
+        ]
+      },
+      history: {
+        title: "History & Civics",
+        icon: "🏛️",
+        levels: {
+          easy: [
+            { q: "Industrial Revolution first began in:", options: ["Britain", "France", "Germany", "USA"], correct: 0 }
+          ],
+          medium: [
+            { q: "Who invented the steam engine?", options: ["James Watt", "Eli Whitney", "Stephenson", "Newton"], correct: 0 }
+          ],
+          hard: [
+            { q: "The movement demanding votes for women in Britain was called:", options: ["Suffragette movement", "Chartist movement", "Luddite movement", "Reform Act"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "Class 8 History Mock: Who was the Governor-General during the Revolt of 1857?", options: ["Lord Canning", "Lord Dalhousie", "Lord Ripon", "Lord Curzon"], correct: 0 }
+        ]
+      },
+      geography: {
+        title: "Geography",
+        icon: "🌍",
+        levels: {
+          easy: [
+            { q: "Contour lines join places of equal:", options: ["Height", "Temperature", "Pressure", "Rainfall"], correct: 0 }
+          ],
+          medium: [
+            { q: "Closely spaced contours indicate:", options: ["Steep slope", "Gentle slope", "Plain", "Plateau"], correct: 0 }
+          ],
+          hard: [
+            { q: "A feature represented by V-shaped contours pointing upstream is a:", options: ["River valley", "Ridge", "Spur", "Cliff"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "Class 8 Geography Mock: Standard scale used for topomaps in India is:", options: ["1:50,000", "1:1,000", "1:100", "1:10,000"], correct: 0 }
+        ]
+      },
+      computers: {
+        title: "Computer Studies",
+        icon: "💻",
+        levels: {
+          easy: [
+            { q: "Which software acts as an interface between user and hardware?", options: ["Operating System", "Compiler", "Browser", "Antivirus"], correct: 0 }
+          ],
+          medium: [
+            { q: "MS-DOS is an example of:", options: ["CLI", "GUI", "Mobile OS", "Cloud OS"], correct: 0 }
+          ],
+          hard: [
+            { q: "Which memory management technique divides memory into fixed-size blocks?", options: ["Paging", "Segmentation", "Fragmentation", "Caching"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "Class 8 Computer Mock: What is the main function of an Operating System?", options: ["Resource management", "Word processing", "Web browsing", "Graphic design"], correct: 0 }
         ]
       }
     }
