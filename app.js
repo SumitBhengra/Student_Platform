@@ -96,6 +96,84 @@ const conceptDeckData = {
             ]
           }
         ]
+      },
+      history: {
+        title: "History & Civics",
+        icon: "🏛️",
+        chapters: [
+          { 
+            id: "h7-1", 
+            title: "The Delhi Sultanate", 
+            summary: "Rise of the Slave, Khilji, Tughlaq, Sayyid, and Lodi dynasties in medieval India.", 
+            question: "Who was the first female ruler of the Delhi Sultanate?",
+            quiz: [
+              { q: "Who founded the Slave Dynasty in India?", options: ["Qutb-ud-din Aibak", "Iltutmish", "Balban", "Alauddin Khilji"], correct: 0 },
+              { q: "Who was the first and only Muslim woman ruler of Delhi?", options: ["Razia Sultana", "Nur Jahan", "Chand Bibi", "Mumtaz Mahal"], correct: 0 }
+            ]
+          },
+          {
+            id: "h7-2",
+            title: "The Mughal Empire",
+            summary: "Rule of Babur, Humayun, Akbar, Jahangir, Shah Jahan, and Aurangzeb.",
+            question: "In which year was the First Battle of Panipat fought?",
+            quiz: [
+              { q: "Who established the Mughal Empire in India?", options: ["Akbar", "Babur", "Humayun", "Shah Jahan"], correct: 1 },
+              { q: "The First Battle of Panipat took place in:", options: ["1526", "1556", "1761", "1576"], correct: 0 }
+            ]
+          }
+        ]
+      },
+      geography: {
+        title: "Geography",
+        icon: "🌍",
+        chapters: [
+          { 
+            id: "g7-1", 
+            title: "Weathering and Soil Formation", 
+            summary: "Processes of physical and chemical weathering, soil horizons, and soil conservation.", 
+            question: "Differentiate between physical and chemical weathering.",
+            quiz: [
+              { q: "The topmost layer of soil rich in organic humus is:", options: ["Topsoil (Horizon A)", "Subsoil (Horizon B)", "Bedrock", "Substratum"], correct: 0 },
+              { q: "Rusting of iron present in rocks is an example of:", options: ["Physical weathering", "Chemical weathering", "Biological erosion", "Deposition"], correct: 1 }
+            ]
+          },
+          {
+            id: "g7-2",
+            title: "Weather and Climate",
+            summary: "Elements of weather, atmospheric temperature, pressure, winds, and humidity.",
+            question: "Which instrument is used to measure atmospheric pressure?",
+            quiz: [
+              { q: "Atmospheric pressure is measured using a:", options: ["Thermometer", "Barometer", "Anemometer", "Hygrometer"], correct: 1 },
+              { q: "Rainfall is measured using a:", options: ["Wind Vane", "Rain Gauge", "Barometer", "Seismograph"], correct: 1 }
+            ]
+          }
+        ]
+      },
+      computers: {
+        title: "Computer Studies",
+        icon: "💻",
+        chapters: [
+          { 
+            id: "cs7-1", 
+            title: "Computer Virus & Cyber Security", 
+            summary: "Malware types (Viruses, Trojans, Worms, Spyware), antivirus software, and online safety practices.", 
+            question: "What is the primary difference between a computer virus and a worm?",
+            quiz: [
+              { q: "Malicious software designed to harm or compromise a system is called:", options: ["Hardware", "Malware", "Firmware", "Shareware"], correct: 1 },
+              { q: "Which tool actively monitors network traffic to block unauthorized access?", options: ["Firewall", "Spreadsheet", "Database", "Compiler"], correct: 0 }
+            ]
+          },
+          {
+            id: "cs7-2",
+            title: "Introduction to HTML",
+            summary: "Basic structure of HTML documents, tags, elements, attributes, and page styling.",
+            question: "Which tag is used to create the largest heading in HTML?",
+            quiz: [
+              { q: "HTML stands for:", options: ["Hypertext Markup Language", "High Text Machine Language", "Hyperlink Text Mode Language", "Home Tool Markup Language"], correct: 0 },
+              { q: "Which tag is used to display a paragraph?", options: ["<p>", "<para>", "<paragraph>", "<text>"], correct: 0 }
+            ]
+          }
+        ]
       }
     }
   },
@@ -266,6 +344,60 @@ const arenaQuestionBank = {
         },
         boardMock: [
           { q: "A motion that repeats itself at regular intervals is:", options: ["Periodic motion", "Translatory motion", "Random motion", "Circular motion"], correct: 0 }
+        ]
+      },
+      history: {
+        title: "History & Civics",
+        icon: "🏛️",
+        levels: {
+          easy: [
+            { q: "Who was the founder of the Slave Dynasty?", options: ["Qutb-ud-din Aibak", "Iltutmish", "Balban", "Akbar"], correct: 0 }
+          ],
+          medium: [
+            { q: "In which year was the First Battle of Panipat fought?", options: ["1526", "1556", "1761", "1576"], correct: 0 }
+          ],
+          hard: [
+            { q: "Which Sultan introduced market regulation and price control systems?", options: ["Alauddin Khilji", "Muhammad bin Tughlaq", "Balban", "Firoz Shah Tughlaq"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "Class 7 History Mock: Who built the Qutb Minar's base?", options: ["Qutb-ud-din Aibak", "Iltutmish", "Firoz Shah", "Razia"], correct: 0 }
+        ]
+      },
+      geography: {
+        title: "Geography",
+        icon: "🌍",
+        levels: {
+          easy: [
+            { q: "Which instrument measures atmospheric pressure?", options: ["Barometer", "Thermometer", "Hygrometer", "Anemometer"], correct: 0 }
+          ],
+          medium: [
+            { q: "The process of rock decay due to oxidation is:", options: ["Chemical weathering", "Physical weathering", "Erosion", "Faulting"], correct: 0 }
+          ],
+          hard: [
+            { q: "Which layer of the atmosphere contains the ozone layer?", options: ["Stratosphere", "Troposphere", "Mesosphere", "Exosphere"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "Class 7 Geography Mock: What is the S.I. unit for measuring atmospheric pressure?", options: ["Pascal (Pa)", "Newton", "Joule", "Degree Celsius"], correct: 0 }
+        ]
+      },
+      computers: {
+        title: "Computer Studies",
+        icon: "💻",
+        levels: {
+          easy: [
+            { q: "What does HTML stand for?", options: ["Hypertext Markup Language", "High Tech Machine Language", "Hyperlink Text Mode Language", "Home Tool Markup Language"], correct: 0 }
+          ],
+          medium: [
+            { q: "Which of the following is considered malware?", options: ["Trojan Horse", "Antivirus", "Linux", "RAM"], correct: 0 }
+          ],
+          hard: [
+            { q: "Which HTML tag is used to embed an image?", options: ["<img>", "<image>", "<picture>", "<src>"], correct: 0 }
+          ]
+        },
+        boardMock: [
+          { q: "Class 7 Computer Mock: Which software acts as a security barrier between a private network and the internet?", options: ["Firewall", "Router", "Browser", "Word Processor"], correct: 0 }
         ]
       }
     }
