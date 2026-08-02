@@ -41,6 +41,49 @@ async function publishChapterToSupabase() {
     renderDashboard();
   }
 }
+
+// ==========================================
+// BULK CHAPTER UPLOADER (JSON)
+// ==========================================
+async function uploadBulkChaptersJSON() {
+  const fileInput = document.getElementById("bulk-file-input");
+  
+  if (!fileInput.files || fileInput.files.length === 0) {
+    alert("Please select a JSON file first!");
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.onload = async function(e) {
+    try {
+      const chaptersData = JSON.parse(e.target.result);
+
+      if (!Array.isArray(chaptersData)) {
+        alert("Invalid file format: JSON must contain an array [...] of chapter objects.");
+        return;
+      }
+
+      // Insert all chapters into Supabase in one batch
+      const { data, error } = await supabaseClient
+        .from('chapters')
+        .insert(chaptersData);
+
+      if (error) {
+        console.error("Bulk Upload Error:", error);
+        alert("Upload failed: " + error.message);
+      } else {
+        alert(`🎉 Successfully published ${chaptersData.length} chapters to Supabase live!`);
+        fileInput.value = ""; // Clear file input
+      }
+    } catch (err) {
+      alert("Error parsing JSON file: " + err.message);
+    }
+  };
+
+  reader.readAsText(file);
+}
 // ==========================================
 // ADMIN LOGIN ENGINE
 // ==========================================
