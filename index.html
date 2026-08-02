@@ -287,9 +287,27 @@
         </div>
 
       </div>
+      <hr style="margin: 25px 0; border: 0; border-top: 1px solid var(--border-color, #e2e8f0);" />
+
+<!-- 📦 BULK JSON / CSV UPLOAD SECTION -->
+      <div id="admin-bulk-box">
+        <h3>📦 Bulk Upload Chapters (JSON)</h3>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 12px;">
+          Upload a <code>.json</code> file containing an array of chapter objects to publish multiple chapters at once.
+        </p>
+      
+        <div class="input-group">
+          <input type="file" id="bulk-file-input" accept=".json" style="padding: 10px; border: 1px dashed #6366f1; border-radius: 8px; width: 100%; background: #f8fafc;" />
+        </div>
+      
+        <button type="button" class="primary-btn" onclick="uploadBulkChaptersJSON()" style="margin-top: 10px; background: #4f46e5;">
+          ⚡ Publish Bulk File to Supabase
+        </button>
+      </div>
+      
     </section>
 
-  </div>
+    </div>
 
   <script src="app.js"></script>
 </body>
