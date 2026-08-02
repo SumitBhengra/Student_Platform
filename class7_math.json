@@ -1,0 +1,20 @@
+[
+  {
+    "grade_key": "class-7",
+    "subject_key": "math",
+    "chapter_id": "m7-101",
+    "title": "Integers & Absolute Values",
+    "summary": "Understanding positive/negative numbers, number lines, and fundamental operations.",
+    "question": "What is (-15) + (-8)?",
+    "solution": "When adding two negative numbers, add their absolute values and keep the negative sign: 15 + 8 = 23 -> -23."
+  },
+  {
+    "grade_key": "class-7",
+    "subject_key": "math",
+    "chapter_id": "m7-102",
+    "title": "Fractions and Decimals",
+    "summary": "Multiplication and division of proper, improper, and mixed fractions.",
+    "question": "Multiply 3/4 by 2/5.",
+    "solution": "Multiply numerators and denominators: (3 * 2) / (4 * 5) = 6/20 = 3/10."
+  }
+]
