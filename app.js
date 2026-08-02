@@ -42,9 +42,6 @@ async function publishChapterToSupabase() {
   }
 }
 
-// ==========================================
-// BULK CHAPTER UPLOADER (JSON)
-// ==========================================
 async function uploadBulkChaptersJSON() {
   const fileInput = document.getElementById("bulk-file-input");
   
@@ -65,17 +62,27 @@ async function uploadBulkChaptersJSON() {
         return;
       }
 
-      // Insert all chapters into Supabase in one batch
+      // Map chapter_id -> id so it matches your Supabase table schema
+      const formattedData = chaptersData.map(ch => ({
+        id: ch.chapter_id || ch.id,
+        grade_key: ch.grade_key,
+        subject_key: ch.subject_key,
+        title: ch.title,
+        summary: ch.summary,
+        question: ch.question,
+        solution: ch.solution
+      }));
+
       const { data, error } = await supabaseClient
         .from('chapters')
-        .insert(chaptersData);
+        .insert(formattedData);
 
       if (error) {
         console.error("Bulk Upload Error:", error);
         alert("Upload failed: " + error.message);
       } else {
-        alert(`🎉 Successfully published ${chaptersData.length} chapters to Supabase live!`);
-        fileInput.value = ""; // Clear file input
+        alert(`🎉 Successfully published ${formattedData.length} chapters to Supabase live!`);
+        fileInput.value = "";
       }
     } catch (err) {
       alert("Error parsing JSON file: " + err.message);
