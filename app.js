@@ -131,6 +131,87 @@ async function fetchChaptersFromSupabase(gradeKey, subjectKey) {
   }
   return data || [];
 }
+// Toggle difficulty selector based on mode
+function toggleDifficultyDropdown(mode) {
+  const diffBox = document.getElementById("difficulty-box");
+  if (diffBox) {
+    diffBox.style.display = mode === "boardMock" ? "none" : "block";
+  }
+}
+
+// 1. Publish single question to Supabase
+async function publishExamQuestionToSupabase() {
+  const classKey = document.getElementById("exam-class").value;
+  const subjectKey = document.getElementById("exam-subject").value;
+  const modeType = document.getElementById("exam-mode").value;
+  const difficulty = modeType === "level" ? document.getElementById("exam-difficulty").value : null;
+  const questionText = document.getElementById("exam-q-text").value.trim();
+  
+  const options = [
+    document.getElementById("opt-0").value.trim(),
+    document.getElementById("opt-1").value.trim(),
+    document.getElementById("opt-2").value.trim(),
+    document.getElementById("opt-3").value.trim()
+  ];
+  
+  const correctIndex = parseInt(document.getElementById("exam-correct-opt").value);
+
+  if (!questionText || options.some(opt => !opt)) {
+    alert("Please fill in the question text and all 4 options!");
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from('exam_questions')
+    .insert([{
+      class_key: classKey,
+      subject_key: subjectKey,
+      mode_type: modeType,
+      difficulty: difficulty,
+      question: questionText,
+      options: options,
+      correct_index: correctIndex
+    }]);
+
+  if (error) {
+    alert("Error publishing question: " + error.message);
+  } else {
+    alert("🎉 Exam question published successfully!");
+    document.getElementById("exam-q-text").value = "";
+    document.getElementById("opt-0").value = "";
+    document.getElementById("opt-1").value = "";
+    document.getElementById("opt-2").value = "";
+    document.getElementById("opt-3").value = "";
+  }
+}
+
+// 2. Dynamic Fetch when user starts an Exam Arena Test
+async function fetchExamQuestionsFromSupabase(classKey, subjectKey, modeType, difficulty = null) {
+  let query = supabaseClient
+    .from('exam_questions')
+    .select('*')
+    .eq('class_key', classKey)
+    .eq('subject_key', subjectKey)
+    .eq('mode_type', modeType);
+
+  if (difficulty) {
+    query = query.eq('difficulty', difficulty);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Error fetching exam questions:", error);
+    return [];
+  }
+
+  // Convert Supabase format to match Arena question structure
+  return (data || []).map(item => ({
+    q: item.question,
+    options: item.options,
+    correct: item.correct_index
+  }));
+}
 // ==========================================
 // EXISTING CODE BELOW (conceptDeckData...)
 // ==========================================
@@ -1689,23 +1770,30 @@ function selectQuizSubject(subjectKey) {
   document.getElementById("quiz-mode-screen-title").innerText = `${subjData.title} Exam`;
   switchScreen("quiz-mode-screen");
 }
-
 // Start Practice Quiz (Screen 4: Active Quiz)
-function startSubjectQuiz(level) {
+async function startSubjectQuiz(level) {
   const { classKey, subjectKey } = arenaSelection;
   if (!classKey || !subjectKey) return;
 
-  const questionsList = arenaQuestionBank[classKey].subjects[subjectKey].levels[level];
-  const subjectTitle = arenaQuestionBank[classKey].subjects[subjectKey].title;
-  const classTitle = arenaQuestionBank[classKey].title;
+  const subjectTitle = arenaQuestionBank[classKey]?.subjects[subjectKey]?.title || subjectKey.toUpperCase();
+  const classTitle = arenaQuestionBank[classKey]?.title || classKey.toUpperCase();
 
-  if (!questionsList || questionsList.length === 0) {
+  // 1. Fetch static local fallback questions
+  const localQuestions = arenaQuestionBank[classKey]?.subjects[subjectKey]?.levels?.[level] || [];
+
+  // 2. Fetch live published questions from Supabase
+  const supabaseQuestions = await fetchExamQuestionsFromSupabase(classKey, subjectKey, "level", level);
+
+  // 3. Combine both sources
+  const combinedQuestions = [...localQuestions, ...supabaseQuestions];
+
+  if (combinedQuestions.length === 0) {
     alert(`No questions available for ${subjectTitle} (${classTitle}) at ${level} level yet.`);
     return;
   }
 
   arenaState = {
-    questions: questionsList,
+    questions: combinedQuestions,
     currentIndex: 0,
     score: 0,
     title: `${classTitle} • ${subjectTitle} (${level.toUpperCase()})`
@@ -1717,21 +1805,29 @@ function startSubjectQuiz(level) {
 }
 
 // Start Board Mock Test (Screen 4: Active Quiz)
-function startSubjectBoardMock() {
+async function startSubjectBoardMock() {
   const { classKey, subjectKey } = arenaSelection;
   if (!classKey || !subjectKey) return;
 
-  const questionsList = arenaQuestionBank[classKey].subjects[subjectKey].boardMock;
-  const subjectTitle = arenaQuestionBank[classKey].subjects[subjectKey].title;
-  const classTitle = arenaQuestionBank[classKey].title;
+  const subjectTitle = arenaQuestionBank[classKey]?.subjects[subjectKey]?.title || subjectKey.toUpperCase();
+  const classTitle = arenaQuestionBank[classKey]?.title || classKey.toUpperCase();
 
-  if (!questionsList || questionsList.length === 0) {
+  // 1. Fetch static local fallback questions
+  const localQuestions = arenaQuestionBank[classKey]?.subjects[subjectKey]?.boardMock || [];
+
+  // 2. Fetch live published mock questions from Supabase
+  const supabaseQuestions = await fetchExamQuestionsFromSupabase(classKey, subjectKey, "boardMock");
+
+  // 3. Combine both sources
+  const combinedQuestions = [...localQuestions, ...supabaseQuestions];
+
+  if (combinedQuestions.length === 0) {
     alert(`No board mock test available for ${subjectTitle} (${classTitle}) yet.`);
     return;
   }
 
   arenaState = {
-    questions: questionsList,
+    questions: combinedQuestions,
     currentIndex: 0,
     score: 0,
     title: `📜 ${classTitle} • ${subjectTitle} Board Mock`
@@ -1741,6 +1837,7 @@ function startSubjectBoardMock() {
   switchScreen("quiz-active-screen");
   renderActiveArenaQuestion();
 }
+
 
 // Render Question on Screen 4
 function renderActiveArenaQuestion() {
