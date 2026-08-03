@@ -1815,6 +1815,7 @@ function checkQuizCompletion(referenceCard) {
         userProfile.completedChapters.push(currentSelection.chapter.id);
         checkMilestoneBadges();
         saveProfile();
+        syncMasteredChapterToCloud(currentSelection.chapter.id);
       }
 
       completionMsg.innerHTML = `
