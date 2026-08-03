@@ -100,6 +100,7 @@ async function loadStudentProfile(user) {
     } else if (diffDays > 1) {
       // Missed a day -> Reset streak
       newStreak = 1;
+      }
     }
   }
 
