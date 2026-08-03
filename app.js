@@ -5,6 +5,148 @@ const SUPABASE_URL = "https://ngvlbvhsnfhuivbbrynp.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ndmxidmhzbmZodWl2YmJyeW5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0MjM5MjcsImV4cCI6MjEwMDk5OTkyN30.uWhGx8DhA2a-xpe6S3sQ4_8SlpSS7QytNfwXX9EialI";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// ==========================================
+// 🎓 STUDENT AUTH & STREAK SYNC ENGINE
+// ==========================================
+
+let isSignUpMode = false;
+
+// 1. Toggle between Login & Signup UI
+function toggleAuthMode(e) {
+  e.preventDefault();
+  isSignUpMode = !isSignUpMode;
+  document.getElementById("auth-modal-title").innerText = isSignUpMode ? "🎓 Create Student Account" : "🎓 Student Login";
+  document.getElementById("auth-submit-btn").innerText = isSignUpMode ? "Sign Up" : "Log In";
+  document.getElementById("auth-toggle-text").innerText = isSignUpMode ? "Already have an account?" : "Don't have an account?";
+  document.getElementById("auth-toggle-btn").innerText = isSignUpMode ? "Log In" : "Sign Up";
+}
+
+// 2. Open / Close Auth Modal
+function openStudentAuthModal() {
+  document.getElementById("student-auth-modal").style.display = "flex";
+}
+function closeStudentAuthModal() {
+  document.getElementById("student-auth-modal").style.display = "none";
+}
+
+// 3. Handle Auth Submission (Login or Sign Up)
+async function handleStudentAuth() {
+  const email = document.getElementById("student-email").value.trim();
+  const password = document.getElementById("student-password").value.trim();
+
+  if (!email || !password) {
+    alert("Please enter both email and password!");
+    return;
+  }
+
+  if (isSignUpMode) {
+    // SIGN UP
+    const { data, error } = await supabaseClient.auth.signUp({ email, password });
+    if (error) {
+      alert("Sign up failed: " + error.message);
+      return;
+    }
+    
+    // Create Initial Profile
+    if (data.user) {
+      await supabaseClient.from("profiles").insert([{
+        id: data.user.id,
+        email: email,
+        mastered_chapters: [],
+        quiz_scores: {},
+        streak_count: 1,
+        last_active_date: new Date().toISOString().split("T")[0]
+      }]);
+      alert("🎉 Account created successfully!");
+      closeStudentAuthModal();
+      loadStudentProfile(data.user);
+    }
+  } else {
+    // LOG IN
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) {
+      alert("Login failed: " + error.message);
+      return;
+    }
+    closeStudentAuthModal();
+    loadStudentProfile(data.user);
+  }
+}
+
+// 4. Load Profile & Update Streak Calculation
+async function loadStudentProfile(user) {
+  if (!user) return;
+
+  const { data: profile, error } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (error || !profile) return;
+
+  // Calculate Streak
+  const today = new Date().toISOString().split("T")[0];
+  const lastActive = profile.last_active_date;
+  
+  let newStreak = profile.streak_count || 1;
+
+  if (lastActive) {
+    const diffDays = Math.floor((new Date(today) - new Date(lastActive)) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) {
+      // Logged in on consecutive day -> Increase streak
+      newStreak += 1;
+    } else if (diffDays > 1) {
+      // Missed a day -> Reset streak
+      newStreak = 1;
+    }
+  }
+
+  // Update last active date & streak in Supabase
+  await supabaseClient.from("profiles").update({
+    streak_count: newStreak,
+    last_active_date: today
+  }).eq("id", user.id);
+
+  // Sync state into active user session
+  userProfile.completedChapters = profile.mastered_chapters || [];
+  userProfile.streak = newStreak;
+
+  // Update UI Elements
+  updateStreakUI(newStreak);
+  renderSubjects(currentSelection.grade || "class-7");
+}
+
+// 5. Update Streak badge in Header
+function updateStreakUI(streakCount) {
+  const streakBadge = document.querySelector(".streak-badge") || document.getElementById("streak-display");
+  if (streakBadge) {
+    streakBadge.innerHTML = `🔥 ${streakCount}d`;
+  }
+}
+
+// 6. Save Mastered Chapters back to Cloud
+async function syncMasteredChapterToCloud(chapterId) {
+  const session = (await supabaseClient.auth.getSession()).data.session;
+  if (!session) return;
+
+  if (!userProfile.completedChapters.includes(chapterId)) {
+    userProfile.completedChapters.push(chapterId);
+  }
+
+  await supabaseClient.from("profiles").update({
+    mastered_chapters: userProfile.completedChapters
+  }).eq("id", session.user.id);
+}
+
+// 7. Auto-detect logged-in state on page refresh
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (session && session.user) {
+    loadStudentProfile(session.user);
+  }
+});
+
 // Publish Chapter directly from the Admin Panel form to Supabase
 async function publishChapterToSupabase() {
   const gradeKey = document.getElementById("admin-grade").value;      // 👈 Captures Class selection (class-7, class-8, etc.)
