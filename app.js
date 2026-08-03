@@ -121,7 +121,7 @@ async function loadStudentProfile(user) {
     if (typeof currentSelection !== "undefined" && currentSelection.grade) {
       renderSubjects(currentSelection.grade);
     } else if (loginScreen && loginScreen.classList.contains("active")) {
-      switchScreen("grade-screen");
+      renderDashboard();
     }
   } catch (err) {
     console.error("Error loading student profile:", err);
