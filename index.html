@@ -284,6 +284,75 @@
           </div>
 
           <button type="button" class="primary-btn" onclick="publishChapterToSupabase()" style="margin-top: 15px;">🚀 Publish Chapter Live</button>
+
+          <!-- 🔽 PASTE THE EXAM ARENA CREATOR CODE RIGHT HERE 🔽 -->
+      <hr style="margin: 30px 0; border: 0; border-top: 1px solid #e2e8f0;" />
+
+      <h3>🎯 Publish Exam Arena Question</h3>
+      <div class="admin-grid" style="display: grid; gap: 12px; grid-template-columns: 1fr 1fr;">
+        <div>
+          <label>Class:</label>
+          <select id="exam-class" class="admin-input">
+            <option value="class-7">Class 7</option>
+            <option value="class-8">Class 8</option>
+            <option value="class-9">Class 9</option>
+            <option value="class-10">Class 10</option>
+          </select>
+        </div>
+        <div>
+          <label>Subject:</label>
+          <select id="exam-subject" class="admin-input">
+            <option value="math">Mathematics</option>
+            <option value="physics">Physics</option>
+            <option value="chemistry">Chemistry</option>
+            <option value="biology">Biology</option>
+            <option value="history">History & Civics</option>
+            <option value="geography">Geography</option>
+            <option value="computers">Computer Studies</option>
+          </select>
+        </div>
+        <div>
+          <label>Test Type:</label>
+          <select id="exam-mode" class="admin-input" onchange="toggleDifficultyDropdown(this.value)">
+            <option value="level">Practice Level (Easy/Med/Hard)</option>
+            <option value="boardMock">Board Mock Test</option>
+          </select>
+        </div>
+        <div id="difficulty-box">
+          <label>Difficulty:</label>
+          <select id="exam-difficulty" class="admin-input">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top: 12px;">
+        <label>Question Text:</label>
+        <textarea id="exam-q-text" class="admin-input" placeholder="e.g. What is the SI unit of Density?"></textarea>
+      </div>
+
+      <div style="display: grid; gap: 8px; grid-template-columns: 1fr 1fr; margin-top: 12px;">
+        <input type="text" id="opt-0" class="admin-input" placeholder="Option A" />
+        <input type="text" id="opt-1" class="admin-input" placeholder="Option B" />
+        <input type="text" id="opt-2" class="admin-input" placeholder="Option C" />
+        <input type="text" id="opt-3" class="admin-input" placeholder="Option D" />
+      </div>
+
+      <div style="margin-top: 12px;">
+        <label>Correct Answer:</label>
+        <select id="exam-correct-opt" class="admin-input">
+          <option value="0">Option A</option>
+          <option value="1">Option B</option>
+          <option value="2">Option C</option>
+          <option value="3">Option D</option>
+        </select>
+      </div>
+
+      <button type="button" class="primary-btn" onclick="publishExamQuestionToSupabase()" style="margin-top: 15px; width: 100%;">
+        🚀 Publish Exam Question
+      </button>
         </div>
 
       </div>
