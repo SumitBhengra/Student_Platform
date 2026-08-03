@@ -77,55 +77,56 @@ async function handleStudentAuth() {
 async function loadStudentProfile(user) {
   if (!user) return;
 
-  const { data: profile, error } = await supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+  try {
+    const { data: profile, error } = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
 
-  if (error || !profile) return;
+    if (error || !profile) return;
 
-  // Calculate Streak
-  const today = new Date().toISOString().split("T")[0];
-  const lastActive = profile.last_active_date;
-  
-  let newStreak = profile.streak_count || 1;
-
-  if (lastActive) {
-    const diffDays = Math.floor((new Date(today) - new Date(lastActive)) / (1000 * 60 * 60 * 24));
+    // Calculate Streak
+    const today = new Date().toISOString().split("T")[0];
+    const lastActive = profile.last_active_date;
     
-    if (diffDays === 1) {
-      // Logged in on consecutive day -> Increase streak
-      newStreak += 1;
-    } else if (diffDays > 1) {
-      // Missed a day -> Reset streak
-      newStreak = 1;
+    let newStreak = profile.streak_count || 1;
+
+    if (lastActive) {
+      const diffDays = Math.floor((new Date(today) - new Date(lastActive)) / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 1) {
+        newStreak += 1;
+      } else if (diffDays > 1) {
+        newStreak = 1;
       }
     }
-  }
 
-  // Update last active date & streak in Supabase
-  await supabaseClient.from("profiles").update({
-    streak_count: newStreak,
-    last_active_date: today
-  }).eq("id", user.id);
+    // Update last active date & streak in Supabase
+    await supabaseClient.from("profiles").update({
+      streak_count: newStreak,
+      last_active_date: today
+    }).eq("id", user.id);
 
-  // Sync state into active user session
-  userProfile.completedChapters = profile.mastered_chapters || [];
-  userProfile.streak = newStreak;
+    // Sync state into active user session
+    if (typeof userProfile !== "undefined") {
+      userProfile.completedChapters = profile.mastered_chapters || [];
+      userProfile.streak = newStreak;
+    }
 
-  // Update UI Elements
-  updateStreakUI(newStreak);
-  // 1. If user already selected a class, refresh that class's subjects
-  if (currentSelection.grade) {
-    renderSubjects(currentSelection.grade);
-  } 
-  // 2. If logging in from the welcome screen, take them to Class Selection
-  else if (document.getElementById("login-screen").classList.contains("active")) {
-    switchScreen("grade-screen");
+    // Update UI Elements
+    updateStreakUI(newStreak);
+
+    const loginScreen = document.getElementById("login-screen");
+    if (typeof currentSelection !== "undefined" && currentSelection.grade) {
+      renderSubjects(currentSelection.grade);
+    } else if (loginScreen && loginScreen.classList.contains("active")) {
+      switchScreen("grade-screen");
+    }
+  } catch (err) {
+    console.error("Error loading student profile:", err);
   }
 }
-
 // 5. Update Streak badge in Header
 function updateStreakUI(streakCount) {
   const streakBadge = document.querySelector(".streak-badge") || document.getElementById("streak-display");
