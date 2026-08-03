@@ -115,7 +115,14 @@ async function loadStudentProfile(user) {
 
   // Update UI Elements
   updateStreakUI(newStreak);
-  renderSubjects(currentSelection.grade || "class-7");
+  // 1. If user already selected a class, refresh that class's subjects
+  if (currentSelection.grade) {
+    renderSubjects(currentSelection.grade);
+  } 
+  // 2. If logging in from the welcome screen, take them to Class Selection
+  else if (document.getElementById("login-screen").classList.contains("active")) {
+    switchScreen("grade-screen");
+  }
 }
 
 // 5. Update Streak badge in Header
